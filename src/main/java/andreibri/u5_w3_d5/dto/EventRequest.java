@@ -7,4 +7,5 @@ public class EventRequest {
     public String description;
     public LocalDate date;
     public int availableSeats;
+    public String location;
 }
