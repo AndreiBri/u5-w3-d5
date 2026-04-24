@@ -4,6 +4,7 @@ import andreibri.u5_w3_d5.dto.EventRequest;
 import andreibri.u5_w3_d5.dto.EventResponse;
 import andreibri.u5_w3_d5.services.EventService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,14 @@ public class EventController {
     @PreAuthorize("hasRole('ORGANIZER')")
     @PostMapping
     public EventResponse create(@RequestBody EventRequest req) {
-        return service.create(req);
+
+        // Prende lo username dal token JWT
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        return service.create(req, username); // ← passa anche lo username
     }
 
     // Tutti gli utenti loggati possono vedere gli eventi
